@@ -28,6 +28,7 @@
 		<curator-version>3.0.0</curator-version>
 		<dubbo-version>2.5.3</dubbo-version>
 		<guava-version>19.0</guava-version>
+		<dom4j-version>1.6.1</dom4j-version>
 		<tomcat-plugin-version>2.2</tomcat-plugin-version>
 		<ejb-plugin-version>2.3</ejb-plugin-version>
 		<war-plugin-version>2.4</war-plugin-version>
@@ -193,6 +194,12 @@
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${guava-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>${dom4j-version}</version>
 			</dependency>
 
 		</dependencies>
