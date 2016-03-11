@@ -28,6 +28,9 @@
 		<curator-version>3.0.0</curator-version>
 		<dubbo-version>2.5.3</dubbo-version>
 		<guava-version>19.0</guava-version>
+		<aspectj-version>1.8.8</aspectj-version>
+		<cglib-version>3.2.1</cglib-version>
+
 		<tomcat-plugin-version>2.2</tomcat-plugin-version>
 		<ejb-plugin-version>2.3</ejb-plugin-version>
 		<war-plugin-version>2.4</war-plugin-version>
@@ -130,6 +133,24 @@
 			<!--spring-->
 
 			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>${aspectj-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>${aspectj-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib</artifactId>
+				<version>${cglib-version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>org.apache.zookeeper</groupId>
 				<artifactId>zookeeper</artifactId>
 				<version>${zookeeper-version}</version>
@@ -187,6 +208,16 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>dubbo</artifactId>
 				<version>${dubbo-version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>spring</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>netty</artifactId>
+						<groupId>org.jboss.netty</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>
