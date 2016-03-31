@@ -7,7 +7,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="username" value="root"/>
         <property name="password" value="usbw"/>
-        <property name="url" value="jdbc:mysql//localhost:3307/web"/>
+        <property name="url" value="jdbc:mysql://localhost:3307/web"/>
     </bean>
 
     <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
@@ -16,7 +16,7 @@
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.pengjinfei.common.po"/>
+        <property name="basePackage" value="com.pengjinfei.core.dao"/>
     </bean>
 
 </beans>

@@ -5,10 +5,12 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- 扫描 -->
-	<context:component-scan base-package="com.pengjinfei">
+	<context:component-scan base-package="com.pengjinfei.core">
 		<!-- 不包括Controller层 -->
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
 	<import resource="config/*.xml"/>
+
+	<bean class="com.pengjinfei.core.factory.CustomerFactory" id="customer"/>
 </beans>

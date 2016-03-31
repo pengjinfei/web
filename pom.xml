@@ -30,6 +30,7 @@
 		<guava-version>19.0</guava-version>
 		<aspectj-version>1.8.8</aspectj-version>
 		<cglib-version>3.2.1</cglib-version>
+		<mysql-version>5.1.38</mysql-version>
 
 		<tomcat-plugin-version>2.2</tomcat-plugin-version>
 		<ejb-plugin-version>2.3</ejb-plugin-version>
@@ -142,6 +143,19 @@
 				<artifactId>spring-jdbc</artifactId>
 				<version>${spring-version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring-version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aspects</artifactId>
+				<version>${spring-version}</version>
+			</dependency>
 			<!--spring-->
 
 			<dependency>
@@ -236,6 +250,12 @@
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${guava-version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql-version}</version>
 			</dependency>
 
 		</dependencies>

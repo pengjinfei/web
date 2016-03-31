@@ -18,7 +18,13 @@
 	</settings>
 
 	<typeAliases>
-		<package name="com.pengjinfei.common.po"/>
+		<package name="com.pengjinfei.core.dao"/>
 	</typeAliases>
+
+	<plugins>
+		<plugin interceptor="com.pengjinfei.common.mybatis.interceptor.TimeInterceptor">
+			<property name="dialect" value="mysql"/>
+		</plugin>
+	</plugins>
 
 </configuration>
