@@ -3,7 +3,6 @@ package com.pengjinfei.common.mybatis.interceptor;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.plugin.*;
-import org.apache.ibatis.session.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -36,8 +35,6 @@ public class TimeInterceptor implements Interceptor {
     private static Logger logger = LoggerFactory.getLogger(TimeInterceptor.class);
 
     private String dialect;
-
-    private Configuration configuration;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {

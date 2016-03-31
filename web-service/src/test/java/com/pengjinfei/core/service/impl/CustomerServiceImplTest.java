@@ -59,6 +59,6 @@ public class CustomerServiceImplTest {
     @Test
     public void testUpdate() {
         CustomerService customerService = serviceFactory.getService("customerService");
-        customerService.updateByName("5318");
+        customerService.updateByName("4937");
     }
 }
