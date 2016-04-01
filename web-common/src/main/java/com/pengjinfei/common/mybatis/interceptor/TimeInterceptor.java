@@ -21,10 +21,6 @@ import java.util.regex.Pattern;
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class})})
 public class TimeInterceptor implements Interceptor {
 
-    private final static String MYSQL_DIALECT = "mysql";
-
-    private final static String ORACLE_DIALECT = "oracle";
-
     private final static String CREATE_DATE = "create_date";
 
     private final static String UPDATE_DATE = "update_date";
@@ -34,7 +30,7 @@ public class TimeInterceptor implements Interceptor {
 
     private static Logger logger = LoggerFactory.getLogger(TimeInterceptor.class);
 
-    private String dialect;
+    private Dialect dialect;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -73,13 +69,13 @@ public class TimeInterceptor implements Interceptor {
         }
     }
 
-    private String getTimestampByDialect(String dialect) {
-        if (dialect.equalsIgnoreCase(MYSQL_DIALECT)) {
+    private String getTimestampByDialect(Dialect dialect) {
+        if (dialect==Dialect.MYSQL) {
             return "now()";
-        } else if (dialect.equalsIgnoreCase(ORACLE_DIALECT)) {
+        } else if (dialect==Dialect.ORACLE) {
             return "sysdate";
         }
-        throw new UnsupportedOperationException("Database dialect is unkown");
+        throw new UnsupportedOperationException("Database dialect not supported.");
     }
 
     @Override
@@ -89,16 +85,10 @@ public class TimeInterceptor implements Interceptor {
 
     @Override
     public void setProperties(Properties properties) {
-        String dialect = properties.getProperty("dialect");
+        String dialect = properties.getProperty("dialect").toUpperCase();
         if (!StringUtils.hasText(dialect)) {
-            throw new UnsupportedOperationException("Database dialect is not setted");
+            throw new IllegalArgumentException("Database dialect is not setted");
         }
-        if (dialect.equalsIgnoreCase(ORACLE_DIALECT)) {
-            this.dialect = ORACLE_DIALECT;
-        } else if (dialect.equalsIgnoreCase(MYSQL_DIALECT)) {
-            this.dialect = MYSQL_DIALECT;
-        } else {
-            throw new UnsupportedOperationException("Database dialect is unkown");
-        }
+        this.dialect = Dialect.valueOf(dialect);
     }
 }
