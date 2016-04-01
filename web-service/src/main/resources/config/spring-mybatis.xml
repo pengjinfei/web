@@ -6,8 +6,8 @@
     <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="username" value="root"/>
-        <property name="password" value="usbw"/>
-        <property name="url" value="jdbc:mysql://localhost:3307/web"/>
+        <property name="password" value="pengjinfei"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/web"/>
     </bean>
 
     <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
