@@ -86,7 +86,7 @@ public class BeanDefinitionAddPostProcessor implements BeanDefinitionRegistryPos
                 if (registry.containsBeanDefinition(id)) {
                     throw new IllegalStateException("Duplicate spring bean id " + id);
                 }
-//                registry.registerBeanDefinition(id, beanDefinition);
+                registry.registerBeanDefinition(id, beanDefinition);
                 beanDefinition.getPropertyValues().addPropertyValue("id", id);
             }
 
@@ -95,8 +95,12 @@ public class BeanDefinitionAddPostProcessor implements BeanDefinitionRegistryPos
                 String simpleName = beanClass.getSimpleName();
                 refId = simpleName.substring(0, 1).toLowerCase() + simpleName.substring(1);
             }
+
             RuntimeBeanReference reference = new RuntimeBeanReference(refId);
             beanDefinition.getPropertyValues().addPropertyValue("ref", reference);
+
+            beanDefinition.getPropertyValues().addPropertyValue("interface",exposeInterface.getName());
+
         }
     }
 
