@@ -10,7 +10,8 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
-	<import resource="config/*.xml"/>
+	<import resource="*/spring-*.xml"/>
 
 	<bean class="com.pengjinfei.core.factory.CustomerFactory" id="customer"/>
+	<bean class="com.pengjinfei.common.BeanPostProcessor.BeanDefinitionAddPostProcessor"/>
 </beans>
