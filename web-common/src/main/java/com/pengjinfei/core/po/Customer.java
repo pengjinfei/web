@@ -1,11 +1,13 @@
 package com.pengjinfei.core.po;
 
+import java.io.Serializable;
+
 /**
  * Author: EX-PENGJINFEI001
  * Date: 2016-03-30
  * Description:
  */
-public class Customer {
+public class Customer  implements Serializable{
     private Integer id;
     private String name;
     private Integer age;
