@@ -31,6 +31,7 @@
 		<aspectj-version>1.8.8</aspectj-version>
 		<cglib-version>3.2.1</cglib-version>
 		<mysql-version>5.1.38</mysql-version>
+		<jcl-version>1.7.21</jcl-version>
 
 		<tomcat-plugin-version>2.2</tomcat-plugin-version>
 		<ejb-plugin-version>2.3</ejb-plugin-version>
@@ -93,6 +94,13 @@
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>${slf4j-version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${jcl-version}</version>
+			</dependency>
+
 			<!-- log -->
 
 			<!--spring-->

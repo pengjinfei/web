@@ -24,13 +24,13 @@ import java.util.List;
 /**
  * Author: EX-PENGJINFEI001
  * Date: 2016-05-09
- * Description:
+ * Description: 自动读取spring的service注解,加入dubbo
  */
-public class BeanDefinitionAddPostProcessor implements BeanDefinitionRegistryPostProcessor {
+public class ServiceBeanDefinitionPostProcessor implements BeanDefinitionRegistryPostProcessor {
 
     private static final List<Class<?>> ignoredInterfaces = new ArrayList<>();
 
-    private static final Logger logger = LoggerFactory.getLogger(BeanDefinitionAddPostProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(ServiceBeanDefinitionPostProcessor.class);
 
     static {
         ignoredInterfaces.add(InitializingBean.class);
