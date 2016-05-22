@@ -33,6 +33,8 @@
         <mysql-version>5.1.38</mysql-version>
         <oracle-version>11.2.0</oracle-version>
         <jcl-version>1.7.21</jcl-version>
+        <flyway-version>4.0.1</flyway-version>
+        <h2-version>1.3.170</h2-version>
 
         <ejb-plugin-version>2.3</ejb-plugin-version>
         <war-plugin-version>2.4</war-plugin-version>
@@ -288,6 +290,16 @@
                 <version>${oracle-version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${flyway-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2-version}</version>
+            </dependency>
 
         </dependencies>
 
