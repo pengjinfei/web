@@ -5,7 +5,7 @@
 
 	<dubbo:application name="serviceConsumer" />
 
-	<dubbo:registry address="zookeeper://127.0.0.1:2181" />
+	<dubbo:registry address="zookeeper://192.168.42.1:2181" />
 
 	<dubbo:annotation package="com.pengjinfei.back.web"/>
 
