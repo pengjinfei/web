@@ -34,7 +34,6 @@
         <oracle-version>11.2.0</oracle-version>
 		<jcl-version>1.7.21</jcl-version>
 
-		<tomcat-plugin-version>2.2</tomcat-plugin-version>
 		<ejb-plugin-version>2.3</ejb-plugin-version>
 		<war-plugin-version>2.4</war-plugin-version>
 		<ear-plugin-version>2.9</ear-plugin-version>
@@ -42,13 +41,18 @@
 	</properties>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>${tomcat-plugin-version}</version>
-			</plugin>
-		</plugins>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin-version}</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
 	</build>
 
 	<modules>
