@@ -21,10 +21,10 @@ public class ConsumerController {
     @Autowired
     OtherService otherService;
 
-    @Reference
+    @Reference(version = "customerService")
     CustomerService customerService;
 
-    @Reference
+    @Reference(version = "otherCustomerService")
     CustomerService otherCustomerService;
 
     @RequestMapping("/test/{id}")
