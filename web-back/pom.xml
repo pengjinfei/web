@@ -30,7 +30,7 @@
                 </configuration>
             </plugin>
 		</plugins>
-        <finalName>we-back</finalName>
+        <finalName>web-back</finalName>
 	</build>
 
 	<dependencies>

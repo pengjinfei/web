@@ -12,6 +12,4 @@
 
 	<import resource="*/spring-*.xml"/>
 
-	<bean class="com.pengjinfei.common.BeanPostProcessor.DubboApplicationNamePostProcessor"/>
-
 </beans>
