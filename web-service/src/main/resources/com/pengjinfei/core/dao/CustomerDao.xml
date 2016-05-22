@@ -7,5 +7,8 @@
 	<update id="updateByName" parameterType="string">
 		UPDATE custom SET age=age+100 WHERE name=#{name}
 	</update>
+	<select id="getById" parameterType="string" resultType="com.pengjinfei.core.po.Customer">
+		SELECT * FROM CUSTOM WHERE ID=#{id}
+	</select>
 
 </mapper>

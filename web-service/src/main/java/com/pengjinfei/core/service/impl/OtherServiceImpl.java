@@ -31,6 +31,6 @@ public class OtherServiceImpl implements OtherService {
     }
 
     public Customer getById(String id) {
-        return otherCustomerService.getById(id);
+        return customerDao.getById(id);
     }
 }

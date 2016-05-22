@@ -5,6 +5,7 @@ import com.pengjinfei.core.po.Customer;
 import com.pengjinfei.core.service.OtherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,9 +20,9 @@ public class ConsumerController {
     @Autowired
     OtherService otherService;
 
-    @RequestMapping("/test")
+    @RequestMapping("/test/{id}")
     @ResponseBody
-    public Customer getCustomer() {
-        return otherService.getById("66");
+    public Customer getCustomer(@PathVariable("id") String  id) {
+        return otherService.getById(id);
     }
 }

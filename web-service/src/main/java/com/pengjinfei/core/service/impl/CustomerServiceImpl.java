@@ -23,9 +23,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void insertCustomer(Customer customer) {
         customerDao.insert(customer);
-        customer.setName(customer.getName()+"Inner");
-        innerInsertCustomer(customer);
-        throw new RuntimeException("test");
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -34,10 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public Customer getById(String id) {
-        Customer customer=new Customer();
-        customer.setId(Integer.valueOf(id));
-        customer.setName("normal");
-        return customer;
+        return customerDao.getById(id);
     }
 
     @Transactional

@@ -11,4 +11,6 @@ public interface CustomerDao {
     void insert(Customer customer);
 
     void updateByName(String name);
+
+    Customer getById(String id);
 }

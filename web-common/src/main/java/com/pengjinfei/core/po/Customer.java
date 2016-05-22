@@ -1,6 +1,7 @@
 package com.pengjinfei.core.po;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Author: EX-PENGJINFEI001
@@ -11,6 +12,25 @@ public class Customer  implements Serializable{
     private Integer id;
     private String name;
     private Integer age;
+
+    private Date create_date;
+    private Date update_date;
+
+    public Date getCreate_date() {
+        return create_date;
+    }
+
+    public void setCreate_date(Date create_date) {
+        this.create_date = create_date;
+    }
+
+    public Date getUpdate_date() {
+        return update_date;
+    }
+
+    public void setUpdate_date(Date update_date) {
+        this.update_date = update_date;
+    }
 
     public Integer getId() {
         return id;
