@@ -28,18 +28,18 @@
     </dependencies>
 
     <build>
-        <finalName>web-sso</finalName>
-
         <plugins>
-
             <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <uriEncoding>UTF-8</uriEncoding>
-                    <port>8080</port>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>web-sso</finalName>
     </build>
+
 </project>
