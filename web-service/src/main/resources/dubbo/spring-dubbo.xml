@@ -9,9 +9,9 @@
 
 	<dubbo:protocol name="dubbo" port="20880" />
 
-	<dubbo:service interface="com.pengjinfei.core.service.OtherService" ref="otherServiceImpl"/>
+	<!--<dubbo:service interface="com.pengjinfei.core.service.OtherService" ref="otherServiceImpl"/>-->
 
-	<dubbo:service interface="com.pengjinfei.core.service.CustomerService" ref="customerService" version="customerService"/>
+	<!--<dubbo:service interface="com.pengjinfei.core.service.CustomerService" ref="customerService" version="customerService"/>-->
 
-	<dubbo:service interface="com.pengjinfei.core.service.CustomerService" ref="otherCustomerService" version="otherCustomerService"/>
+	<!--<dubbo:service interface="com.pengjinfei.core.service.CustomerService" ref="otherCustomerService" version="otherCustomerService"/>-->
 </beans>

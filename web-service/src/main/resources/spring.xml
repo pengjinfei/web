@@ -12,6 +12,6 @@
 
 	<import resource="*/spring-*.xml"/>
 
-	<!--<bean class="com.pengjinfei.common.BeanPostProcessor.DubboServiceAutoExportPostProcessor"/>-->
+	<bean class="com.pengjinfei.common.BeanPostProcessor.DubboServiceAutoExportPostProcessor"/>
 
 </beans>
