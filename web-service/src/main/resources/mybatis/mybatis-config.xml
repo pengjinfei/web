@@ -23,7 +23,7 @@
 
 	<plugins>
 		<plugin interceptor="com.pengjinfei.common.mybatis.interceptor.TimeInterceptor">
-			<property name="dialect" value="mysql"/>
+			<property name="dialect" value="oracle"/>
 		</plugin>
 	</plugins>
 

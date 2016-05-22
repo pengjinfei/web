@@ -12,6 +12,8 @@
 
 	<import resource="*/spring-*.xml"/>
 
-	<bean class="com.pengjinfei.core.factory.CustomerFactory" id="customer"/>
-	<bean class="com.pengjinfei.common.BeanPostProcessor.ServiceBeanDefinitionPostProcessor"/>
+    <bean class="com.pengjinfei.common.BeanPostProcessor.DubboApplicationNamePostProcessor"/>
+
+	<!--<bean class="com.pengjinfei.common.BeanPostProcessor.DubboServiceAutoExportPostProcessor"/>-->
+
 </beans>

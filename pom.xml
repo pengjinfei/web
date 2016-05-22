@@ -31,6 +31,7 @@
 		<aspectj-version>1.8.8</aspectj-version>
 		<cglib-version>3.2.1</cglib-version>
 		<mysql-version>5.1.38</mysql-version>
+        <oracle-version>11.2.0</oracle-version>
 		<jcl-version>1.7.21</jcl-version>
 
 		<tomcat-plugin-version>2.2</tomcat-plugin-version>
@@ -265,6 +266,14 @@
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql-version}</version>
 			</dependency>
+
+			<!-- http://mvnrepository.com/artifact/com.oracle/ojdbc14 -->
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc6</artifactId>
+				<version>${oracle-version}</version>
+			</dependency>
+
 
 		</dependencies>
 

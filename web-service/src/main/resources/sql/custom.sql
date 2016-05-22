@@ -1,8 +1,7 @@
-CREATE TABLE `custom` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `create_date` datetime DEFAULT NULL,
-  `update_date` datetime DEFAULT NULL,
-  `name` varchar(50) NOT NULL,
-  `age` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8
+CREATE TABLE custom (
+  id          VARCHAR2(15) NOT NULL,
+  name        VARCHAR2(15),
+  age         NUMBER,
+  update_date TIMESTAMP,
+  create_date TIMESTAMP
+)

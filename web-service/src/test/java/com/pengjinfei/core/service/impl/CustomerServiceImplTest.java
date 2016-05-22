@@ -3,6 +3,7 @@ package com.pengjinfei.core.service.impl;
 import com.pengjinfei.core.factory.ServiceFactory;
 import com.pengjinfei.core.po.Customer;
 import com.pengjinfei.core.service.CustomerService;
+import com.pengjinfei.core.service.OtherService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +24,15 @@ import java.util.Date;
 @ContextConfiguration(locations = "classpath:spring.xml")
 public class CustomerServiceImplTest {
 
-    @Qualifier("customer")
-    @Autowired
-    private Customer customer;
     @Qualifier("customerFactory")
     @Autowired
     private Customer customerFactory;
 
     @Autowired
     private ServiceFactory serviceFactory;
+
+    @Autowired
+    OtherService otherService;
 
     @Test
     public void insertCustomer() throws Exception {
@@ -40,6 +41,7 @@ public class CustomerServiceImplTest {
         DateFormat format=new SimpleDateFormat("mmss");
         String dateString = format.format(date);
         customer.setName(dateString);
+        customer.setId(100000);
         customer.setAge(28);
         CustomerService customerService = serviceFactory.getService("customerService");
         customerService.innerInsertCustomer(customer);
@@ -60,5 +62,11 @@ public class CustomerServiceImplTest {
     public void testUpdate() {
         CustomerService customerService = serviceFactory.getService("customerService");
         customerService.updateByName("5955");
+    }
+
+    @Test
+    public void testOtherService() {
+        Customer byId = otherService.getById("66");
+        System.out.println(byId);
     }
 }

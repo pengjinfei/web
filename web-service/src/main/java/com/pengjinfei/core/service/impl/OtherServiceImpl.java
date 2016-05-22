@@ -20,13 +20,17 @@ public class OtherServiceImpl implements OtherService {
     @Autowired
     private CustomerDao customerDao;
     @Autowired
-    private CustomerService customerService;
+    private CustomerService otherCustomerService;
 
 
     @Transactional
     public void otherInsert(Customer customer) {
         customerDao.insert(customer);
         customer.setName(customer.getName()+"other");
-        customerService.innerInsertCustomer(customer);
+        otherCustomerService.innerInsertCustomer(customer);
+    }
+
+    public Customer getById(String id) {
+        return otherCustomerService.getById(id);
     }
 }

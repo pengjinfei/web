@@ -7,7 +7,7 @@
 
 	<dubbo:registry address="zookeeper://127.0.0.1:2181" />
 
-	<dubbo:protocol name="dubbo" port="20880" />
+	<dubbo:annotation package="com.pengjinfei.back.web"/>
 
-	<dubbo:reference interface="com.pengjinfei.core.service.CustomerService" id="customerService"/>
+    <dubbo:reference interface="com.pengjinfei.core.service.OtherService" id="otherService"/>
 </beans>

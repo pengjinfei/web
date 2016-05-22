@@ -9,4 +9,7 @@ import com.pengjinfei.core.po.Customer;
  */
 public interface OtherService {
     void otherInsert(Customer customer);
+
+    Customer getById(String id);
+
 }

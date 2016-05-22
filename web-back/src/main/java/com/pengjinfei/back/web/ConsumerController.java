@@ -1,7 +1,8 @@
 package com.pengjinfei.back.web;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.pengjinfei.core.po.Customer;
-import com.pengjinfei.core.service.CustomerService;
+import com.pengjinfei.core.service.OtherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,11 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ConsumerController {
 
     @Autowired
-    CustomerService customerService;
+    OtherService otherService;
 
     @RequestMapping("/test")
     @ResponseBody
     public Customer getCustomer() {
-        return customerService.getById("66");
+        return otherService.getById("66");
     }
 }
