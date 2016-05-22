@@ -14,7 +14,8 @@ import java.net.UnknownHostException;
 /**
  * Created by Pengjinfei on 16/5/19.
  * Description: 由于service分布式部署,dubbo的application name冲突,修改beanDefinition中的application name
- *              默认为name_timestamp_hostAddress
+ *              默认为name_hostAddress
+ *              add 2016.05.22 经过试验发现注册同一服务的应用名不同会发生警告,所以该类暂时无用.
  */
 public class DubboApplicationNamePostProcessor implements BeanDefinitionRegistryPostProcessor {
 
@@ -28,7 +29,7 @@ public class DubboApplicationNamePostProcessor implements BeanDefinitionRegistry
             String beanClassName = beanDefinition.getBeanClassName();
             if (beanClassName.equals("com.alibaba.dubbo.config.ApplicationConfig")) {
                 String oldName = beanDefinition.getPropertyValues().get("name").toString();
-                String newName=oldName+"_"+System.currentTimeMillis();
+                String newName=oldName;
                 try {
                     String hostAddress = InetAddress.getLocalHost().getHostAddress();
                     newName+="_"+hostAddress;
