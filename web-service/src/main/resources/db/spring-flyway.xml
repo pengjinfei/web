@@ -7,10 +7,5 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="encoding" value="UTF-8"/>
         <property name="baselineOnMigrate" value="true"/>
-        <property name="baselineVersion" >
-            <bean class="org.flywaydb.core.api.MigrationVersion" factory-method="fromVersion">
-                <constructor-arg value="0"/>
-            </bean>
-        </property>
     </bean>
 </beans>
