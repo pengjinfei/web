@@ -1,6 +1,5 @@
 package com.pengjinfei;
 
-import org.flywaydb.core.Flyway;
 import org.junit.Test;
 
 /**
@@ -11,8 +10,6 @@ public class CommonTest {
 
     @Test
     public void testFlyWay() {
-        Flyway flyway=new Flyway();
-
 
     }
 }
