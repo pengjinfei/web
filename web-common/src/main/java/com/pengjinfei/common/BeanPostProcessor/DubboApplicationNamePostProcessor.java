@@ -17,6 +17,7 @@ import java.net.UnknownHostException;
  *              默认为name_hostAddress
  *              add 2016.05.22 经过试验发现注册同一服务的应用名不同会发生警告,所以该类暂时无用.
  */
+@Deprecated
 public class DubboApplicationNamePostProcessor implements BeanDefinitionRegistryPostProcessor {
 
     private static Logger logger = LoggerFactory.getLogger(DubboApplicationNamePostProcessor.class);

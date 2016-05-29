@@ -14,4 +14,6 @@
 
 	<bean class="com.pengjinfei.common.BeanPostProcessor.DubboServiceAutoExportPostProcessor"/>
 
+    <bean class="com.pengjinfei.common.BeanPostProcessor.LockAopPostProcessor"/>
+
 </beans>
