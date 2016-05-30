@@ -6,8 +6,6 @@ import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-
 /**
  * Created by Pengjinfei on 16/5/29.
  * Description:
@@ -19,7 +17,7 @@ public class FlywayMigration implements DBMigration{
     @Autowired
     Flyway flyway;
 
-    @PostConstruct
+//    @PostConstruct
     @Lock("flyway")
     @Override
     public void migrate() throws Exception {
