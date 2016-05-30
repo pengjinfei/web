@@ -1,11 +1,13 @@
 package com.pengjinfei.common.BeanPostProcessor;
 
 import com.pengjinfei.common.lock.LockAdvisor;
+import com.pengjinfei.common.lock.LockAttribute;
 import com.pengjinfei.common.lock.SeizeLockInterceptor;
 import org.springframework.aop.config.AopConfigUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.*;
 
 /**
@@ -23,13 +25,19 @@ public class LockAopPostProcessor implements BeanDefinitionRegistryPostProcessor
             methodOverrides.addOverride(replaceOverride);
         }
 
+        RootBeanDefinition attributeDef = new RootBeanDefinition(LockAttribute.class);
+        attributeDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        registry.registerBeanDefinition("lockInterceptor",attributeDef);
+
         RootBeanDefinition interceptorDef = new RootBeanDefinition(SeizeLockInterceptor.class);
         interceptorDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+        interceptorDef.getPropertyValues().add("lockInterceptor", new RuntimeBeanReference("lockInterceptor"));
         registry.registerBeanDefinition("lockInterceptor",interceptorDef);
 
         RootBeanDefinition advisorDef = new RootBeanDefinition(LockAdvisor.class);
         advisorDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         advisorDef.getPropertyValues().add("adviceBeanName","lockInterceptor");
+        advisorDef.getPropertyValues().add("lockInterceptor", new RuntimeBeanReference("lockInterceptor"));
         registry.registerBeanDefinition("lockAdvisor",advisorDef);
     }
 

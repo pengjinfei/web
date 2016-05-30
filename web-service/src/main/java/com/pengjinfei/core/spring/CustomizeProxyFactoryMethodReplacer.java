@@ -21,15 +21,20 @@ public class CustomizeProxyFactoryMethodReplacer implements MethodReplacer {
         if (advisors.length <= 1) {
             return null;
         }
-        int i=0;
+        if (advisors[0] instanceof LockAdvisor) {
+            return null;
+        }
+        int i = 0;
         for (; i < advisors.length; i++) {
             if (advisors[i] instanceof LockAdvisor) {
                 break;
             }
         }
-        Advisor temp = advisors[i];
-        advisors[i] = advisors[0];
-        advisors[0]=temp;
+        if (i < advisors.length) {
+            Advisor temp = advisors[0];
+            advisors[0] = advisors[i];
+            advisors[i] = temp;
+        }
         return null;
     }
 }
