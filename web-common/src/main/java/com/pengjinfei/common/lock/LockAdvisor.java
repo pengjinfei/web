@@ -4,8 +4,7 @@ import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractBeanFactoryPointcutAdvisor;
-import org.springframework.aop.support.annotation.AnnotationClassFilter;
-import org.springframework.aop.support.annotation.AnnotationMethodMatcher;
+import org.springframework.aop.support.StaticMethodMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -33,11 +32,16 @@ public class LockAdvisor extends AbstractBeanFactoryPointcutAdvisor {
         private MethodMatcher methodMatcher;
 
         LockAnnotationMatchingPointcut() {
-            classFilter = new AnnotationClassFilter(Service.class);
-            methodMatcher = new AnnotationMethodMatcher(Lock.class){
+            classFilter = new ClassFilter() {
+                @Override
+                public boolean matches(Class<?> clazz) {
+                    return clazz.getAnnotation(Service.class)!=null;
+                }
+            };
+            methodMatcher = new StaticMethodMatcher(){
                 @Override
                 public boolean matches(Method method, Class<?> targetClass) {
-                    boolean matches = super.matches(method, targetClass);
+                    boolean matches = method.getAnnotation(Lock.class)!=null;
                     if (matches) {
                         lockPath=method.getAnnotation(Lock.class).value();
                         if (!StringUtils.hasText(lockPath)) {
