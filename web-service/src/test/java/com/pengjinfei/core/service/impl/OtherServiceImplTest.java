@@ -26,7 +26,7 @@ public class OtherServiceImplTest {
     @Test
     public void otherInsert() throws Exception {
         Customer customer=new Customer();
-        customer.setId(100000);
+        customer.setId(100014);
         customer.setName("pjf");
         customer.setAge(28);
         customerService.insertCustomer(customer);
@@ -34,8 +34,11 @@ public class OtherServiceImplTest {
 
     @Test
     public void getById() throws Exception {
-        Customer byId = otherService.getById("100000");
-        System.out.println(byId);
+        Customer customer=new Customer();
+        customer.setId(100015);
+        customer.setName("pjf");
+        customer.setAge(28);
+        customerService.insertCustomer(customer);
     }
 
 }

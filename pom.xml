@@ -23,7 +23,7 @@
         <mybatis-spring-version>1.2.2</mybatis-spring-version>
         <jackson-version>2.4.2</jackson-version>
         <zkclient-version>0.7</zkclient-version>
-        <curator-version>3.0.0</curator-version>
+        <curator-version>2.9.1</curator-version>
         <guava-version>19.0</guava-version>
         <aspectj-version>1.8.8</aspectj-version>
         <cglib-version>3.2.1</cglib-version>

@@ -1,66 +1,39 @@
 package com.pengjinfei.common.lock;
 
-import org.springframework.aop.ClassFilter;
-import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractBeanFactoryPointcutAdvisor;
-import org.springframework.aop.support.StaticMethodMatcher;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import java.lang.reflect.Method;
+import org.springframework.core.Ordered;
 
 /**
  * Created by Pengjinfei on 16/5/29.
  * Description:
  */
-public class LockAdvisor extends AbstractBeanFactoryPointcutAdvisor {
+public class LockAdvisor extends AbstractBeanFactoryPointcutAdvisor implements Ordered{
 
-    private String lockPath;
+    private LockAttribute lockAttribute;
 
-    private Pointcut pointcut = new LockAnnotationMatchingPointcut();
+    private Pointcut pointcut = new LockAnnotationMatchingPointcut() {
+        @Override
+        public LockAttribute getLockAttribute() {
+            return lockAttribute;
+        }
+    };
 
     @Override
     public Pointcut getPointcut() {
         return this.pointcut;
     }
 
-    private class LockAnnotationMatchingPointcut implements Pointcut {
+    @Override
+    public int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE;
+    }
 
-        private ClassFilter classFilter;
+    public LockAttribute getLockAttribute() {
+        return lockAttribute;
+    }
 
-        private MethodMatcher methodMatcher;
-
-        LockAnnotationMatchingPointcut() {
-            classFilter = new ClassFilter() {
-                @Override
-                public boolean matches(Class<?> clazz) {
-                    return clazz.getAnnotation(Service.class)!=null;
-                }
-            };
-            methodMatcher = new StaticMethodMatcher(){
-                @Override
-                public boolean matches(Method method, Class<?> targetClass) {
-                    boolean matches = method.getAnnotation(Lock.class)!=null;
-                    if (matches) {
-                        lockPath=method.getAnnotation(Lock.class).value();
-                        if (!StringUtils.hasText(lockPath)) {
-                            lockPath = targetClass.getName() + "." + method.getName();
-                        }
-                    }
-                    return matches;
-                }
-            };
-        }
-
-        @Override
-        public ClassFilter getClassFilter() {
-            return classFilter;
-        }
-
-        @Override
-        public MethodMatcher getMethodMatcher() {
-            return methodMatcher;
-        }
+    public void setLockAttribute(LockAttribute lockAttribute) {
+        this.lockAttribute = lockAttribute;
     }
 }
