@@ -25,14 +25,10 @@ public class ZookeeperPreemptiveLock implements PreemptiveLock {
 
     private final static String BASE_PATH = "/locks/";
     private static Logger logger = LoggerFactory.getLogger(ZookeeperPreemptiveLock.class);
-    private transient final Map<String, InterProcessMutex> lockPathMutexCache =
-            new ConcurrentHashMap<>(256);
-
     private static CuratorFramework curatorFramework;
-
     private static String zookeeperUrl;
 
-    static{
+    static {
         try {
             InputStream resourceAsStream = ZookeeperPreemptiveLock.class.getClassLoader().getResourceAsStream("common.properties");
             Properties properties = new Properties();
@@ -46,6 +42,9 @@ public class ZookeeperPreemptiveLock implements PreemptiveLock {
         curatorFramework.start();
     }
 
+    private transient final Map<String, InterProcessMutex> lockPathMutexCache =
+            new ConcurrentHashMap<>(256);
+
     @Override
     public boolean getLock(String lock) {
         if (!StringUtils.hasText(lock)) {
@@ -55,10 +54,8 @@ public class ZookeeperPreemptiveLock implements PreemptiveLock {
             String path = BASE_PATH + lock;
             InterProcessMutex mutex = lockPathMutexCache.get(lock);
             if (mutex == null) {
-                if (lockPathMutexCache.get(lock) != null) {
-                    mutex = new InterProcessMutex(curatorFramework, path);
-                    lockPathMutexCache.putIfAbsent(lock, mutex);
-                }
+                mutex = new InterProcessMutex(curatorFramework, path);
+                lockPathMutexCache.putIfAbsent(lock, mutex);
             }
             mutex = lockPathMutexCache.get(lock);
             if (mutex != null && mutex.acquire(1, TimeUnit.SECONDS)) {
