@@ -23,6 +23,14 @@
 		</property>
 	</bean>
 
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="placeholderConfigurer">
+		<property name="locations">
+			<array>
+				<value>classpath*:common.properties</value>
+			</array>
+		</property>
+	</bean>
+
 	<bean class="com.pengjinfei.common.BeanPostProcessor.DubboRefVersionPostProcessor"/>
 
 </beans>

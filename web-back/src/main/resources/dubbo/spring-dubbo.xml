@@ -5,9 +5,8 @@
 
 	<dubbo:application name="serviceConsumer" />
 
-	<dubbo:registry address="zookeeper://192.168.42.1:2181" />
+	<dubbo:registry address="zookeeper://${zookeeper.url}" />
 
 	<dubbo:annotation package="com.pengjinfei.back.web"/>
 
-    <!--<dubbo:reference interface="com.pengjinfei.core.service.OtherService" id="otherService"/>-->
 </beans>
