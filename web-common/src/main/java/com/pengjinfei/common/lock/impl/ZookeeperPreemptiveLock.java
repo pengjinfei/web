@@ -21,6 +21,8 @@ public class ZookeeperPreemptiveLock implements PreemptiveLock {
 
     private final String BASE_PATH = "/locks/";
 
+    private String path;
+
     private InterProcessMutex mutex;
 
     @Override
@@ -29,9 +31,10 @@ public class ZookeeperPreemptiveLock implements PreemptiveLock {
             RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
             CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("192.168.42.1:2181", retryPolicy);
             curatorFramework.start();
-            mutex = new InterProcessMutex(curatorFramework, BASE_PATH + lock);
+            path=BASE_PATH + lock;
+            mutex = new InterProcessMutex(curatorFramework, path);
             if (mutex.acquire(1, TimeUnit.SECONDS)) {
-                logger.info("获得锁:"+BASE_PATH+lock+"成功.");
+                logger.info("获得锁:"+path+"成功.");
                 return true;
             }
         } catch (Exception e) {
@@ -46,6 +49,7 @@ public class ZookeeperPreemptiveLock implements PreemptiveLock {
         if (mutex != null) {
             try {
                 mutex.release();
+                logger.debug("释放锁:" + path + "成功.");
             } catch (Exception e) {
                 logger.error("关闭InterProcessMutex异常.",e);
             }
