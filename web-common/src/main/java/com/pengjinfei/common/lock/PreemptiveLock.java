@@ -15,6 +15,7 @@ public interface PreemptiveLock {
 
     /**
      * 释放锁
+     * @param lock
      */
-    void releaseLock();
+    void releaseLock(String lock);
 }

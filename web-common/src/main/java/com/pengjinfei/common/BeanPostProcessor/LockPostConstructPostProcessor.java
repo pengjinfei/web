@@ -2,8 +2,8 @@ package com.pengjinfei.common.BeanPostProcessor;
 
 import com.pengjinfei.common.lock.Lock;
 import com.pengjinfei.common.lock.PreemptiveLock;
-import com.pengjinfei.common.lock.impl.ZookeeperPreemptiveLock;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
@@ -30,10 +30,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class LockPostConstructPostProcessor implements BeanPostProcessor, PriorityOrdered,ApplicationContextAware {
 
-    private transient final Map<String , PreemptiveLock> postConstructLockCache =
-            new ConcurrentHashMap<String , PreemptiveLock>(256);
+    private transient final Map<String , String> postConstructLockCache =
+            new ConcurrentHashMap<>(256);
 
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private PreemptiveLock preemptiveLock;
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -43,14 +46,14 @@ public class LockPostConstructPostProcessor implements BeanPostProcessor, Priori
             public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
                 Lock lock = method.getAnnotation(Lock.class);
                 if (lock != null && method.getAnnotation(PostConstruct.class) != null) {
-                    PreemptiveLock preemptiveLock= new ZookeeperPreemptiveLock();
                     String value = lock.value();
                     if (!StringUtils.hasText(value)) {
                         value = beanName + "." + method.getName();
                     }
                     boolean locked = preemptiveLock.getLock(value);
                     if (locked) {
-                        postConstructLockCache.put(beanName, preemptiveLock);
+                        //TODO 一个beanName 只能有一个方法同时有PostConstruct和Lock注解
+                        postConstructLockCache.put(beanName, value);
                     } else {
                         CommonAnnotationBeanPostProcessor commonAnnotationBeanPostProcessor = (CommonAnnotationBeanPostProcessor) applicationContext.getBean(AnnotationConfigUtils.COMMON_ANNOTATION_PROCESSOR_BEAN_NAME);
                         try {
@@ -89,10 +92,8 @@ public class LockPostConstructPostProcessor implements BeanPostProcessor, Priori
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        PreemptiveLock preemptiveLock = postConstructLockCache.get(beanName);
-        if (preemptiveLock != null) {
-            preemptiveLock.releaseLock();
-        }
+        String path = postConstructLockCache.get(beanName);
+        preemptiveLock.releaseLock(path);
         return bean;
     }
 

@@ -5,14 +5,8 @@
 
 	<dubbo:application name="serviceProvider" />
 
-	<dubbo:registry address="zookeeper://192.168.42.1:2181" />
-	<!--<dubbo:registry address="zookeeper://127.0.0.1:2181" />-->
+	<dubbo:registry address="zookeeper://${zookeeper.url}" />
 
 	<dubbo:protocol name="dubbo" port="20880" />
 
-	<!--<dubbo:service interface="com.pengjinfei.core.service.OtherService" ref="otherServiceImpl"/>-->
-
-	<!--<dubbo:service interface="com.pengjinfei.core.service.CustomerService" ref="customerService" version="customerService"/>-->
-
-	<!--<dubbo:service interface="com.pengjinfei.core.service.CustomerService" ref="otherCustomerService" version="otherCustomerService"/>-->
 </beans>

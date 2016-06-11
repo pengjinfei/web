@@ -6,6 +6,7 @@ import com.pengjinfei.core.service.OtherService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,6 +24,9 @@ public class OtherServiceImplTest {
     @Autowired
     CustomerService customerService;
 
+    @Value("zookeeper.url")
+    String url;
+
     @Test
     public void otherInsert() throws Exception {
         Customer customer=new Customer();
@@ -37,4 +41,8 @@ public class OtherServiceImplTest {
         System.out.println(byId);
     }
 
+    @Test
+    public void testProperties() {
+        System.out.println(url);
+    }
 }
