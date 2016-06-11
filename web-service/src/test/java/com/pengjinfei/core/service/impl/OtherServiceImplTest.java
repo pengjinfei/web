@@ -32,7 +32,7 @@ public class OtherServiceImplTest {
         Customer customer=new Customer();
         customer.setName("pjf");
         customer.setAge(28);
-//        customerService.insertCustomer(customer);
+        customerService.insertCustomer(customer);
     }
 
     @Test
