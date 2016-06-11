@@ -4,7 +4,6 @@ import com.alibaba.dubbo.config.spring.ServiceBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
@@ -93,7 +92,7 @@ public class DubboServiceAutoExportPostProcessor implements BeanDefinitionRegist
                 if (registry.containsBeanDefinition(id)) {
                     throw new IllegalStateException("Duplicate spring bean id " + id);
                 }
-                String cached = cachedInterfaces.get(foundInterface);
+/*                String cached = cachedInterfaces.get(foundInterface);
                 if (cached == null) {
                     cachedInterfaces.put(foundInterface, id);
                 } else {
@@ -104,8 +103,9 @@ public class DubboServiceAutoExportPostProcessor implements BeanDefinitionRegist
                         String s = propertyValues.get("id").toString();
                         propertyValues.addPropertyValue("version",s.replaceAll("\\d*",""));
                     }
-                }
+                }*/
 
+                newBeanDefinition.getPropertyValues().addPropertyValue("version",value);
                 registry.registerBeanDefinition(id, newBeanDefinition);
                 newBeanDefinition.getPropertyValues().addPropertyValue("id", id);
 

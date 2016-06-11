@@ -4,7 +4,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.pengjinfei.core.po.Customer;
 import com.pengjinfei.core.service.CustomerService;
 import com.pengjinfei.core.service.OtherService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ConsumerController {
 
-    @Autowired
-    OtherService otherService;
+    @Reference
+    OtherService otherServiceImpl;
 
     @Reference
     CustomerService customerService;
@@ -30,7 +29,7 @@ public class ConsumerController {
     @RequestMapping("/test/{id}")
     @ResponseBody
     public Customer getCustomer(@PathVariable("id") String  id) {
-        return otherService.getById(id);
+        return otherServiceImpl.getById(id);
     }
 
     @RequestMapping("/first/{id}")

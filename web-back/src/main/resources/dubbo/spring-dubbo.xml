@@ -9,5 +9,5 @@
 
 	<dubbo:annotation package="com.pengjinfei.back.web"/>
 
-    <dubbo:reference interface="com.pengjinfei.core.service.OtherService" id="otherService"/>
+    <!--<dubbo:reference interface="com.pengjinfei.core.service.OtherService" id="otherService"/>-->
 </beans>
