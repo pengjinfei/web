@@ -16,4 +16,5 @@
 
     <bean class="com.pengjinfei.common.BeanPostProcessor.LockAopPostProcessor"/>
 
+	<bean class="com.pengjinfei.common.BeanPostProcessor.LockPostConstructPostProcessor"/>
 </beans>

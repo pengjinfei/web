@@ -27,7 +27,7 @@ public class ZookeeperPreemptiveLock implements PreemptiveLock {
     public boolean getLock(String lock) {
         try {
             RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-            CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("127.0.0.1:2181", retryPolicy);
+            CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient("192.168.42.1:2181", retryPolicy);
             curatorFramework.start();
             mutex = new InterProcessMutex(curatorFramework, BASE_PATH + lock);
             if (mutex.acquire(1, TimeUnit.SECONDS)) {

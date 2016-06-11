@@ -15,22 +15,24 @@ public class SeizeLockInterceptor implements MethodInterceptor {
 
     private static Logger logger = LoggerFactory.getLogger(SeizeLockInterceptor.class);
 
-    private PreemptiveLock preemptiveLock = new ZookeeperPreemptiveLock();
-
     private LockAttribute lockAttribute;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Class<?> targetClass = (invocation.getThis() != null ? AopUtils.getTargetClass(invocation.getThis()) : null);
         Object retVal = null;
+        PreemptiveLock preemptiveLock = null;
         try {
             String lockPath = getLockAttribute().getLockPath(invocation.getMethod(), targetClass);
-            logger.info("Begin seize lock on papth:"+lockPath);
+            logger.info("Begin seize lock on papth:" + lockPath);
+            preemptiveLock = new ZookeeperPreemptiveLock();
             if (preemptiveLock.getLock(lockPath)) {
                 retVal = invocation.proceed();
             }
         } finally {
-            preemptiveLock.releaseLock();
+            if (preemptiveLock != null) {
+                preemptiveLock.releaseLock();
+            }
         }
         return retVal;
     }

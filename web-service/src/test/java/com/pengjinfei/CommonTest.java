@@ -1,10 +1,9 @@
 package com.pengjinfei;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Pengjinfei on 16/5/24.
@@ -12,32 +11,25 @@ import java.lang.reflect.Method;
  */
 public class CommonTest {
 
-    public static void main(String[] args) {
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(CommonTest.class);
-        enhancer.setCallback(new MethodInterceptorImpl());
+    private List<String> list = new ArrayList<>();
 
-        CommonTest test = (CommonTest) enhancer.create();
-        test.test();
+    public List<String> getList() {
+        return list;
     }
 
-    public void test() {
-        System.out.println("CommonTest.test");
-        testNothin();
+    public void setList(List<String> list) {
+        this.list = list;
     }
 
-    public void testNothin() {
+    public static void main(String[] args) throws NoSuchFieldException {
+        CommonTest test=new CommonTest();
+        List<String> list = test.getList();
+        list.add("123");
 
-    }
-
-    private static class MethodInterceptorImpl implements MethodInterceptor{
-
-        @Override
-        public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-            System.out.println("before");
-            Object result = methodProxy.invokeSuper(o, objects);
-            System.out.println("after");
-            return result;
-        }
+        Field field = CommonTest.class.getDeclaredField("list");
+        field.setAccessible(true);
+        ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
+        Class<?> aClass = (Class<?>) parameterizedType.getActualTypeArguments()[0];
+        System.out.println(aClass.getName());
     }
 }

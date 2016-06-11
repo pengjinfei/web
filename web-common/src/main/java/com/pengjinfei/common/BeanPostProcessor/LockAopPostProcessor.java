@@ -37,7 +37,7 @@ public class LockAopPostProcessor implements BeanDefinitionRegistryPostProcessor
 
         RootBeanDefinition advisorDef = new RootBeanDefinition(LockAdvisor.class);
         advisorDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-        advisorDef.getPropertyValues().add("adviceBeanName","lockInterceptor");
+//        advisorDef.getPropertyValues().add("adviceBeanName","lockInterceptor");
         advisorDef.getPropertyValues().add("lockAttribute", new RuntimeBeanReference("lockAttribute"));
         registry.registerBeanDefinition("lockAdvisor",advisorDef);
     }
