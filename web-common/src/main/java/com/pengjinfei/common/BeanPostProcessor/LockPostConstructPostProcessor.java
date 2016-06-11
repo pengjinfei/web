@@ -2,8 +2,8 @@ package com.pengjinfei.common.BeanPostProcessor;
 
 import com.pengjinfei.common.lock.Lock;
 import com.pengjinfei.common.lock.PreemptiveLock;
+import com.pengjinfei.common.lock.PreemptiveLockFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
@@ -35,8 +35,7 @@ public class LockPostConstructPostProcessor implements BeanPostProcessor, Priori
 
     private ApplicationContext applicationContext;
 
-    @Autowired
-    private PreemptiveLock preemptiveLock;
+    private PreemptiveLock preemptiveLock= PreemptiveLockFactory.getPreemptiveLock();
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {

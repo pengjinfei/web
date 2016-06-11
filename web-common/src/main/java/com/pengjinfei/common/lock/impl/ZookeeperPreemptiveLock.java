@@ -8,12 +8,12 @@ import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
  * Created by Pengjinfei on 16/5/28.
  * Description:
  */
-@Component("preemptiveLock")
 public class ZookeeperPreemptiveLock implements PreemptiveLock {
 
     private final static String BASE_PATH = "/locks/";
@@ -29,13 +28,19 @@ public class ZookeeperPreemptiveLock implements PreemptiveLock {
     private transient final Map<String, InterProcessMutex> lockPathMutexCache =
             new ConcurrentHashMap<>(256);
 
-    private CuratorFramework curatorFramework;
+    private static CuratorFramework curatorFramework;
 
-    @Value("zookeeper.url")
-    private String zookeeperUrl;
+    private static String zookeeperUrl;
 
-    @PostConstruct
-    private void init() {
+    static{
+        try {
+            InputStream resourceAsStream = ZookeeperPreemptiveLock.class.getClassLoader().getResourceAsStream("common.properties");
+            Properties properties = new Properties();
+            properties.load(resourceAsStream);
+            zookeeperUrl = properties.getProperty("zookeeper.url");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
         curatorFramework = CuratorFrameworkFactory.newClient(zookeeperUrl, retryPolicy);
         curatorFramework.start();
