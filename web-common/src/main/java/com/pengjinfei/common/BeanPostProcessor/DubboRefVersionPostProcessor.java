@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * Created by Pengjinfei on 16/6/11.
- * Description:
+ * Description: 修改Reference注解,添加version属性为feild的name。
  */
 public class DubboRefVersionPostProcessor implements BeanPostProcessor,Ordered {
     @Override
@@ -56,6 +56,7 @@ public class DubboRefVersionPostProcessor implements BeanPostProcessor,Ordered {
                 return reference.interfaceName();
             }
 
+            //更改version注解
             @Override
             public String version() {
                 return name;

@@ -13,7 +13,7 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 
 /**
  * Created by Pengjinfei on 16/5/29.
- * Description:
+ * Description: 注入LockAdvisor,检查方法的lock注解,方法执行时,在事务开启前尝试获得锁,如果获取锁失败,不执行该方法。
  */
 public class LockAopPostProcessor implements BeanDefinitionRegistryPostProcessor {
     @Override
