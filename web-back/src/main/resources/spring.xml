@@ -23,4 +23,6 @@
 		</property>
 	</bean>
 
+	<bean class="com.pengjinfei.common.BeanPostProcessor.DubboRefVersionPostProcessor"/>
+
 </beans>

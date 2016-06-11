@@ -1,9 +1,12 @@
 package com.pengjinfei;
 
+import com.pengjinfei.common.lock.Lock;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Pengjinfei on 16/5/24.
@@ -11,7 +14,41 @@ import java.util.List;
  */
 public class CommonTest {
 
+    @Lock("abc")
     private List<String> list = new ArrayList<>();
+
+    @Lock("12")
+    private int age;
+
+    public static void main(String[] args) throws Exception {
+        CommonTest test = new CommonTest();
+
+        Field ageField = CommonTest.class.getDeclaredField("age");
+        System.out.println(ageField.getName());
+        ageField.setAccessible(true);
+        Field field = Field.class.getDeclaredField("declaredAnnotations");
+
+        CommonTest.class.getAnnotations();
+        field.setAccessible(true);
+        ageField.getAnnotations();
+        Object o = field.get(ageField);
+        Map<Class<? extends Annotation>, Annotation> annotations = (Map<Class<? extends Annotation>, Annotation>) o;
+        Annotation newAnnotation = new Lock() {
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return Lock.class;
+            }
+
+            @Override
+            public String value() {
+                return "abcd";
+            }
+        };
+        annotations.put(Lock.class, newAnnotation);
+
+        Lock ageFieldAnnotation = ageField.getAnnotation(Lock.class);
+        System.out.println(ageFieldAnnotation.value());
+    }
 
     public List<String> getList() {
         return list;
@@ -19,17 +56,5 @@ public class CommonTest {
 
     public void setList(List<String> list) {
         this.list = list;
-    }
-
-    public static void main(String[] args) throws NoSuchFieldException {
-        CommonTest test=new CommonTest();
-        List<String> list = test.getList();
-        list.add("123");
-
-        Field field = CommonTest.class.getDeclaredField("list");
-        field.setAccessible(true);
-        ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
-        Class<?> aClass = (Class<?>) parameterizedType.getActualTypeArguments()[0];
-        System.out.println(aClass.getName());
     }
 }

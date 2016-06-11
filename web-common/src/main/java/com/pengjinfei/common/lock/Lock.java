@@ -6,7 +6,7 @@ import java.lang.annotation.*;
  * Created by Pengjinfei on 16/5/28.
  * Description:
  */
-@Target({ElementType.METHOD})
+@Target({ElementType.METHOD,ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface Lock {

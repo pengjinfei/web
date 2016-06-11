@@ -9,7 +9,7 @@ import java.util.Date;
  * Description:
  */
 public class Customer  implements Serializable{
-    private Integer id;
+    private String id;
     private String name;
     private Integer age;
 
@@ -32,11 +32,11 @@ public class Customer  implements Serializable{
         this.update_date = update_date;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

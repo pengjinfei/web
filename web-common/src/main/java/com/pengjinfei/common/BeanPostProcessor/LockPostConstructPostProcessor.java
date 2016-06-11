@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Pengjinfei on 16/6/11.
- * Description:
+ * Description: 方法存在PostConstruct注解的同时如果有Lock注解,先尝试获取锁,获取失败不执行PostConstruct方法。
  */
 public class LockPostConstructPostProcessor implements BeanPostProcessor, PriorityOrdered,ApplicationContextAware {
 
