@@ -13,7 +13,7 @@
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="placeholderConfigurer">
 		<property name="locations">
 			<array>
-				<value>classpath*:common.properties</value>
+				<value>classpath*:*.properties</value>
 			</array>
 		</property>
 	</bean>
