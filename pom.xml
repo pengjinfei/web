@@ -34,6 +34,7 @@
         <h2-version>1.3.170</h2-version>
         <urlrewriter-version>4.0.4</urlrewriter-version>
         <quartz-version>2.2.3</quartz-version>
+        <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
 
         <ejb-plugin-version>2.3</ejb-plugin-version>
         <war-plugin-version>2.4</war-plugin-version>
@@ -313,6 +314,12 @@
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz-jobs</artifactId>
                 <version>${quartz-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator-version}</version>
             </dependency>
 
 
