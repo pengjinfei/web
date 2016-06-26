@@ -1,11 +1,11 @@
-package com.pengjinfei.common.util;
+package com.pengjinfei.common.utils;
 
 /**
  * Author: EX-PENGJINFEI001
  * DATE: 2016-02-17
  * Description:
  */
-public class SecurityUtil {
+public class SecurityUtils {
 
     /**
      * 处理特殊字符(Cross-site scripting (XSS))  ，将'<'替换成"&lt;"，等等。

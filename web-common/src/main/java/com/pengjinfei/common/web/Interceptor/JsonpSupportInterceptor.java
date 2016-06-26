@@ -1,6 +1,6 @@
 package com.pengjinfei.common.web.Interceptor;
 
-import com.pengjinfei.common.util.SecurityUtil;
+import com.pengjinfei.common.utils.SecurityUtils;
 import com.pengjinfei.common.web.session.WebException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ public class JsonpSupportInterceptor extends HandlerInterceptorAdapter
         if (StringUtils.hasText(parameter)) {
             if(pattern.matcher(parameter).matches()){
                 PrintWriter writer = response.getWriter();
-                writer.write(SecurityUtil.outputfilter(parameter));
+                writer.write(SecurityUtils.outputfilter(parameter));
                 writer.write('(');
             }else {
                 logger.error("jsonp callback function name must be matched by [^\\w+$]");

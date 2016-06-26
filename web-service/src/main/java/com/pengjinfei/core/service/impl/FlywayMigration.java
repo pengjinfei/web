@@ -23,6 +23,6 @@ public class FlywayMigration implements DBMigration{
     @PostConstruct
     @Override
     public void migrate() throws Exception {
-//        flyway.migrate();
+        flyway.migrate();
     }
 }
