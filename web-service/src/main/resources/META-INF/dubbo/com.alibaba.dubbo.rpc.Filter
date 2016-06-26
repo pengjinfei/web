@@ -1,1 +1,1 @@
-ConsumerLogFilter=com.pengjinfei.common.dubbo.ProviderLogFilter
+ProviderLogFilter=com.pengjinfei.common.dubbo.ProviderLogFilter
