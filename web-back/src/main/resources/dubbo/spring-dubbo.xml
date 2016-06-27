@@ -9,6 +9,4 @@
 
 	<dubbo:annotation package="com.pengjinfei.back.web"/>
 
-	<!--<dubbo:consumer filter="ConsumerLogFilter"/>-->
-
 </beans>

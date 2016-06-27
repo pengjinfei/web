@@ -14,7 +14,7 @@
 	<import resource="*/spring-*.xml"/>
 
 	<mvc:annotation-driven />
-	<!--<mvc:default-servlet-handler />-->
+	<mvc:default-servlet-handler />
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="messageConverters">

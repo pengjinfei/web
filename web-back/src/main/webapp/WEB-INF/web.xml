@@ -35,7 +35,7 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-   <!-- <error-page>
+    <error-page>
         <error-code>404</error-code>
         <location>/error-404.html</location>
     </error-page>
@@ -47,5 +47,5 @@
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
-    </welcome-file-list>-->
+    </welcome-file-list>
 </web-app>

@@ -43,4 +43,14 @@ public class ConsumerController {
     public Customer getCustomerByOtherCustomerService(@PathVariable("id") String  id) {
         return otherCustomerService.getById(id);
     }
+
+    @RequestMapping("/get")
+    @ResponseBody
+    public Customer getTestCustmer() {
+        Customer customer=new Customer();
+        customer.setName("test");
+        customer.setAge(123);
+        customer.setId("11111");
+        return customer;
+    }
 }
