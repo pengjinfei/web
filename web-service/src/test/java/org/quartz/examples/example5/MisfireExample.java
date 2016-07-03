@@ -103,7 +103,7 @@ public class MisfireExample {
 
     try {
       // sleep for ten minutes for triggers to file....
-      Thread.sleep(600L * 1000L);
+      Thread.sleep(180L * 1000L);
     } catch (Exception e) {
       //
     }

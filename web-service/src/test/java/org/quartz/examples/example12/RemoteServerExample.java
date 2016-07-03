@@ -17,12 +17,16 @@
  
 package org.quartz.examples.example12;
 
-import org.quartz.Scheduler;
-import org.quartz.SchedulerFactory;
-import org.quartz.SchedulerMetaData;
+import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.InputStream;
+import java.util.Date;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * @author Bill Kratzer
@@ -38,7 +42,11 @@ public class RemoteServerExample {
     Logger log = LoggerFactory.getLogger(RemoteServerExample.class);
 
     // First we must get a reference to a scheduler
-    SchedulerFactory sf = new StdSchedulerFactory();
+    InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("server.properties");
+
+    Properties properties=new Properties();
+    properties.load(resourceAsStream);
+    SchedulerFactory sf = new StdSchedulerFactory(properties);
     Scheduler sched = sf.getScheduler();
 
     log.info("------- Initialization Complete -----------");
@@ -56,9 +64,16 @@ public class RemoteServerExample {
 
     // wait five minutes to give our jobs a chance to run
     try {
-      Thread.sleep(600L * 1000L);
+      Thread.sleep(120L * 1000L);
     } catch (Exception e) {
       //
+    }
+
+    Set<TriggerKey> triggerKeys = sched.getTriggerKeys(GroupMatcher.anyGroup());
+    for (TriggerKey triggerKey : triggerKeys) {
+      Trigger trigger = sched.getTrigger(triggerKey);
+      Date previousFireTime = trigger.getPreviousFireTime();
+      log.info("last fire time "+previousFireTime);
     }
 
     // shut down the scheduler

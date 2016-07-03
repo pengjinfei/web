@@ -1,5 +1,6 @@
 package com.pengjinfei.common.lock.impl;
 
+import com.pengjinfei.common.BeanPostProcessor.ParameterizedProperties;
 import com.pengjinfei.common.lock.PreemptiveLock;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
@@ -26,12 +27,12 @@ public class ZookeeperPreemptiveLock implements PreemptiveLock {
     private final static String BASE_PATH = "/locks/";
     private static Logger logger = LoggerFactory.getLogger(ZookeeperPreemptiveLock.class);
     private static CuratorFramework curatorFramework;
-    private static String zookeeperUrl;
 
     static {
+        String zookeeperUrl;
         try {
             InputStream resourceAsStream = ZookeeperPreemptiveLock.class.getClassLoader().getResourceAsStream("common.properties");
-            Properties properties = new Properties();
+            Properties properties = new ParameterizedProperties();
             properties.load(resourceAsStream);
             zookeeperUrl = properties.getProperty("zookeeper.url");
         } catch (IOException e) {

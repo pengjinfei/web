@@ -8,7 +8,7 @@
 	<!-- 扫描 -->
 	<context:component-scan base-package="com.pengjinfei.back" use-default-filters="false">
 		<!-- 只包括Controller层 -->
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
 	</context:component-scan>
 
 	<import resource="*/spring-*.xml"/>
@@ -24,7 +24,7 @@
 		</property>
 	</bean>
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="placeholderConfigurer">
+	<bean class="com.pengjinfei.common.BeanPostProcessor.ParameterizedPropertyPlaceholderConfigurer" id="placeholderConfigurer">
 		<property name="locations">
 			<array>
 				<value>classpath*:*.properties</value>

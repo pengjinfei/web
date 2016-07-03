@@ -1,13 +1,19 @@
 package com.pengjinfei.common.BeanPostProcessor;
 
+import com.pengjinfei.common.lock.impl.ZookeeperPreemptiveLock;
 import org.apache.zookeeper.*;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Author: EX-PENGJINFEI001
@@ -43,9 +49,33 @@ public class ServiceProxyBeanPostProcessorTest {
     }
 
     @Test
-    public void testSpring(){
-
+    public void testSpring() throws IOException {
+        InputStream resourceAsStream = ZookeeperPreemptiveLock.class.getClassLoader().getResourceAsStream("common.properties");
+        Properties properties = new Properties();
+        properties.load(resourceAsStream);
+        String url = resolvePlaceholder("host",properties);
+        System.out.println(url);
     }
+
+    private static String resolvePlaceholder(String placeholder, Properties props) {
+        String property = props.getProperty(placeholder);
+        Matcher matcher = PATTERN.matcher(property);
+        StringBuffer buffer = new StringBuffer();
+        while (matcher.find()) {
+            String matcherKey = matcher.group(1);
+            String matchervalue = props.getProperty(matcherKey);
+            if (matchervalue != null) {
+                matcher.appendReplacement(buffer, matchervalue);
+            }
+        }
+        matcher.appendTail(buffer);
+        return buffer.toString();
+    }
+
+    private static final Pattern PATTERN = Pattern
+            .compile("\\$\\{([^\\}]+)\\}");
+
+
 
     @Test
     public void testBlockingQueue() throws InterruptedException {

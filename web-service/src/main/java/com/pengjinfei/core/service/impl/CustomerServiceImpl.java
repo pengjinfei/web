@@ -4,7 +4,10 @@ import com.pengjinfei.common.lock.Lock;
 import com.pengjinfei.core.dao.CustomerDao;
 import com.pengjinfei.core.po.Customer;
 import com.pengjinfei.core.service.CustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("customerService")
 public class CustomerServiceImpl implements CustomerService {
 
+    private static Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
     @Autowired
     private CustomerDao customerDao;
@@ -32,7 +36,9 @@ public class CustomerServiceImpl implements CustomerService {
         customerDao.insert(customer);
     }
 
+    @Cacheable(value = "custom", key = "#id")
     public Customer getById(String id) {
+        logger.info("Can not find custom of id=" + id + ", go to database.");
         return customerDao.getById(id);
     }
 

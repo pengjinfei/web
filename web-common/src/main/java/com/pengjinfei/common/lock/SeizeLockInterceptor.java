@@ -16,7 +16,7 @@ public class SeizeLockInterceptor implements MethodInterceptor {
 
     private LockAttribute lockAttribute;
 
-    PreemptiveLock preemptiveLock=PreemptiveLockFactory.getPreemptiveLock();
+    private PreemptiveLock preemptiveLock=PreemptiveLockFactory.getPreemptiveLock();
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -25,7 +25,7 @@ public class SeizeLockInterceptor implements MethodInterceptor {
         String lockPath = null;
         try {
             lockPath = getLockAttribute().getLockPath(invocation.getMethod(), targetClass);
-            logger.info("Begin seize lock on papth:" + lockPath);
+            logger.info("Begin seize lock on path:" + lockPath);
             if (preemptiveLock.getLock(lockPath)) {
                 retVal = invocation.proceed();
             }

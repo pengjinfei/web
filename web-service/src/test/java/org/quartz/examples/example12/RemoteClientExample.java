@@ -17,18 +17,17 @@
  
 package org.quartz.examples.example12;
 
-import static org.quartz.CronScheduleBuilder.cronSchedule;
-import static org.quartz.JobBuilder.newJob;
-import static org.quartz.TriggerBuilder.newTrigger;
-
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerFactory;
-import org.quartz.Trigger;
+import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.InputStream;
+import java.util.Properties;
+
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * This example is a client program that will remotely 
@@ -46,7 +45,11 @@ public class RemoteClientExample {
         Logger log = LoggerFactory.getLogger(RemoteClientExample.class);
 
         // First we must get a reference to a scheduler
-        SchedulerFactory sf = new StdSchedulerFactory();
+        InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("client.properties");
+
+        Properties properties=new Properties();
+        properties.load(resourceAsStream);
+        SchedulerFactory sf = new StdSchedulerFactory(properties);
         Scheduler sched = sf.getScheduler();
 
         // define the job and ask it to run

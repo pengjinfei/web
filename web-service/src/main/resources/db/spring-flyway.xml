@@ -7,5 +7,10 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="encoding" value="UTF-8"/>
         <property name="baselineOnMigrate" value="true"/>
+        <property name="schemas">
+            <list>
+                <value>${jdbc.username}</value>
+            </list>
+        </property>
     </bean>
 </beans>

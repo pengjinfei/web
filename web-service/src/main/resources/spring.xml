@@ -10,7 +10,7 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="placeholderConfigurer">
+	<bean class="com.pengjinfei.common.BeanPostProcessor.ParameterizedPropertyPlaceholderConfigurer" id="placeholderConfigurer">
 		<property name="locations">
 			<array>
 				<value>classpath*:*.properties</value>

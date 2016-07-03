@@ -36,6 +36,8 @@
         <quartz-version>2.2.3</quartz-version>
         <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
         <shiro-version>1.2.5</shiro-version>
+        <jedis-version>2.8.1</jedis-version>
+        <spring-redis-version>1.7.2.RELEASE</spring-redis-version>
 
         <ejb-plugin-version>2.3</ejb-plugin-version>
         <war-plugin-version>2.4</war-plugin-version>
@@ -181,6 +183,18 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aspects</artifactId>
                 <version>${spring-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${spring-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>${spring-redis-version}</version>
             </dependency>
             <!--spring-->
 
@@ -330,6 +344,24 @@
                 <version>${shiro-version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-web</artifactId>
+                <version>${shiro-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro-version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis-version}</version>
+            </dependency>
 
         </dependencies>
 
