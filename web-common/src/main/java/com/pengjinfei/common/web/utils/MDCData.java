@@ -1,5 +1,7 @@
 package com.pengjinfei.common.web.utils;
 
+import org.springframework.util.StringUtils;
+
 import java.io.Serializable;
 
 /**
@@ -20,7 +22,20 @@ public class MDCData implements Serializable {
 
     @Override
     public String toString() {
-        return "{U="+uid+",T="+requestId+"}";
+        String res = "";
+        if (StringUtils.hasText(uid)) {
+            res+="U="+uid;
+        }
+        if (StringUtils.hasText(requestId)) {
+            if (!res.equals("")) {
+                res += ",";
+            }
+            res+="T="+requestId;
+        }
+        if (!res.equals("")) {
+            res = "{" + res + "}";
+        }
+        return res;
     }
 
     public String getRequestId() {

@@ -1,20 +1,18 @@
 package com.pengjinfei.common.lock.impl;
 
-import com.pengjinfei.common.BeanPostProcessor.ParameterizedProperties;
 import com.pengjinfei.common.lock.PreemptiveLock;
-import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
-import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -22,29 +20,15 @@ import java.util.concurrent.TimeUnit;
  * Created by Pengjinfei on 16/5/28.
  * Description:
  */
-public class ZookeeperPreemptiveLock implements PreemptiveLock {
+@Component("preemptiveLock")
+public class ZookeeperPreemptiveLock implements PreemptiveLock, ApplicationContextAware, InitializingBean {
 
-    private final static String BASE_PATH = "/locks/";
     private static Logger logger = LoggerFactory.getLogger(ZookeeperPreemptiveLock.class);
-    private static CuratorFramework curatorFramework;
-
-    static {
-        String zookeeperUrl;
-        try {
-            InputStream resourceAsStream = ZookeeperPreemptiveLock.class.getClassLoader().getResourceAsStream("common.properties");
-            Properties properties = new ParameterizedProperties();
-            properties.load(resourceAsStream);
-            zookeeperUrl = properties.getProperty("zookeeper.url");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        curatorFramework = CuratorFrameworkFactory.newClient(zookeeperUrl, retryPolicy);
-        curatorFramework.start();
-    }
-
+    private final String BASE_PATH = "/locks/";
     private transient final Map<String, InterProcessMutex> lockPathMutexCache =
             new ConcurrentHashMap<>(256);
+    private CuratorFramework curator;
+    private ApplicationContext applicationContext;
 
     @Override
     public boolean getLock(String lock) {
@@ -55,7 +39,7 @@ public class ZookeeperPreemptiveLock implements PreemptiveLock {
             String path = BASE_PATH + lock;
             InterProcessMutex mutex = lockPathMutexCache.get(lock);
             if (mutex == null) {
-                mutex = new InterProcessMutex(curatorFramework, path);
+                mutex = new InterProcessMutex(curator, path);
                 lockPathMutexCache.putIfAbsent(lock, mutex);
             }
             mutex = lockPathMutexCache.get(lock);
@@ -84,5 +68,15 @@ public class ZookeeperPreemptiveLock implements PreemptiveLock {
                 logger.error("关闭InterProcessMutex异常.", e);
             }
         }
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        this.curator = applicationContext.getBean("curator", CuratorFramework.class);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

@@ -39,4 +39,8 @@ public class MDCUtils {
     public static void set(String uid) {
         set(uid, null);
     }
+
+    public static void clear() {
+        MDC.clear();
+    }
 }

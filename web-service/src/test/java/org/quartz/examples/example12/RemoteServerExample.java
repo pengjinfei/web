@@ -46,7 +46,7 @@ public class RemoteServerExample {
 
     Properties properties=new Properties();
     properties.load(resourceAsStream);
-    SchedulerFactory sf = new StdSchedulerFactory(properties);
+    SchedulerFactory sf = new StdSchedulerFactory();
     Scheduler sched = sf.getScheduler();
 
     log.info("------- Initialization Complete -----------");

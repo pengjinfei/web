@@ -1,6 +1,5 @@
 package com.pengjinfei.core.service.impl;
 
-import com.pengjinfei.common.lock.Lock;
 import com.pengjinfei.core.dao.CustomerDao;
 import com.pengjinfei.core.po.Customer;
 import com.pengjinfei.core.service.CustomerService;
@@ -26,7 +25,7 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDao customerDao;
 
     @Transactional(propagation = Propagation.REQUIRED)
-    @Lock("testInsert")
+//    @Lock("testInsert")
     public void insertCustomer(Customer customer) {
         customerDao.insert(customer);
     }

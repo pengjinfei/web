@@ -57,16 +57,16 @@ public class DubboServiceAutoExportPostProcessor implements BeanDefinitionRegist
                 if (service == null) {
                     continue;
                 }
-                RootBeanDefinition newBeanDefinition = new RootBeanDefinition();
-                newBeanDefinition.setBeanClass(ServiceBean.class);
-                newBeanDefinition.setLazyInit(false);
-
                 String value = service.value();
                 if (value.equals("")) {
                     String simpleName = beanClass.getSimpleName();
                     value = simpleName.substring(0, 1).toLowerCase() + simpleName.substring(1);
                 }
-                logger.info("Find service annotation on class: " + beanClassName + ", value:" + value);
+                RootBeanDefinition newBeanDefinition = new RootBeanDefinition();
+                newBeanDefinition.setBeanClass(ServiceBean.class);
+                newBeanDefinition.setLazyInit(false);
+
+                logger.debug("Find service annotation on class: " + beanClassName + ", value:" + value);
                 RuntimeBeanReference reference = new RuntimeBeanReference(value);
                 newBeanDefinition.getPropertyValues().addPropertyValue("ref", reference);
 

@@ -2,8 +2,8 @@ package com.pengjinfei.common.BeanPostProcessor;
 
 import com.pengjinfei.common.lock.Lock;
 import com.pengjinfei.common.lock.PreemptiveLock;
-import com.pengjinfei.common.lock.PreemptiveLockFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
@@ -28,14 +28,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by Pengjinfei on 16/6/11.
  * Description: 方法存在PostConstruct注解的同时如果有Lock注解,先尝试获取锁,获取失败不执行PostConstruct方法。
  */
-public class LockPostConstructPostProcessor implements BeanPostProcessor, PriorityOrdered,ApplicationContextAware {
+public class LockPostConstructPostProcessor implements BeanPostProcessor, PriorityOrdered,ApplicationContextAware,InitializingBean {
 
     private transient final Map<String , String> postConstructLockCache =
             new ConcurrentHashMap<>(256);
 
     private ApplicationContext applicationContext;
 
-    private PreemptiveLock preemptiveLock= PreemptiveLockFactory.getPreemptiveLock();
+    private PreemptiveLock preemptiveLock;
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -92,7 +92,9 @@ public class LockPostConstructPostProcessor implements BeanPostProcessor, Priori
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         String path = postConstructLockCache.get(beanName);
-        preemptiveLock.releaseLock(path);
+        if (StringUtils.hasText(path)) {
+            preemptiveLock.releaseLock(path);
+        }
         return bean;
     }
 
@@ -104,5 +106,10 @@ public class LockPostConstructPostProcessor implements BeanPostProcessor, Priori
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext=applicationContext;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        preemptiveLock = applicationContext.getBean("preemptiveLock", PreemptiveLock.class);
     }
 }

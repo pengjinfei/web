@@ -1,9 +1,11 @@
 package com.pengjinfei;
 
 import com.pengjinfei.common.lock.Lock;
+import org.springframework.util.ReflectionUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,17 @@ public class CommonTest {
 
     public static void main(String[] args) throws Exception {
         CommonTest test = new CommonTest();
+
+        ReflectionUtils.doWithMethods(CommonTest.class, new ReflectionUtils.MethodCallback() {
+            @Override
+            public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
+                System.out.println(method.getDeclaringClass().getName()+"."+method.getName());
+                Class<?>[] parameterTypes = method.getParameterTypes();
+                for (Class<?> parameterType : parameterTypes) {
+                    System.out.println(parameterType.getSimpleName());
+                }
+            }
+        });
 
         Field ageField = CommonTest.class.getDeclaredField("age");
         System.out.println(ageField.getName());

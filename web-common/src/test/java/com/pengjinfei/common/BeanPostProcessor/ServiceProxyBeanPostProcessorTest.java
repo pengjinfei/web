@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Author: EX-PENGJINFEI001
@@ -32,6 +34,8 @@ public class ServiceProxyBeanPostProcessorTest {
 
     @Test
     public void testZookeeper() throws Exception{
+        Pattern pattern=Pattern.compile(".*%3D(.*)$");
+
         String zookeeperUrl = "120.25.95.166:2181";
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
         CuratorFramework curatorFramework = CuratorFrameworkFactory.newClient(zookeeperUrl, retryPolicy);
@@ -39,6 +43,10 @@ public class ServiceProxyBeanPostProcessorTest {
         List<String> bytes = curatorFramework.getChildren().forPath("/dubbo/com.pengjinfei.core.service.CustomerService/providers");
         for (String aByte : bytes) {
             System.out.println(aByte);
+            Matcher matcher = pattern.matcher(aByte);
+            if (matcher.find()) {
+                System.out.println("find version "+matcher.group(1));
+            }
         }
     }
 
