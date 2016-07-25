@@ -37,6 +37,8 @@ public class SimpleJob implements Job {
 
     private static Logger _log = LoggerFactory.getLogger(SimpleJob.class);
 
+    private int data=1;
+
     /**
      * Quartz requires a public empty constructor so that the
      * scheduler can instantiate the class whenever it needs.
@@ -61,6 +63,8 @@ public class SimpleJob implements Job {
         // date and time that it is running
         JobKey jobKey = context.getJobDetail().getKey();
         _log.info("SimpleJob says: " + jobKey + " executing at " + new Date());
+        data++;
+        _log.info("data "+data);
     }
 
 }

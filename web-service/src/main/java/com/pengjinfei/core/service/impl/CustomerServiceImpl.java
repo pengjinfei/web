@@ -1,5 +1,6 @@
 package com.pengjinfei.core.service.impl;
 
+import com.pengjinfei.common.quartz.TimerJob;
 import com.pengjinfei.core.dao.CustomerDao;
 import com.pengjinfei.core.po.Customer;
 import com.pengjinfei.core.service.CustomerService;
@@ -44,6 +45,17 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public void updateByName(String name) {
         customerDao.updateByName(name);
+    }
+
+    @Override
+    @TimerJob(cronExpression = "0/5 * * * * ?",maxConcurrent = 1)
+    public void insertForTestQuartz() {
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        logger.info("PENGJINFEI COMMING!");
     }
 
 

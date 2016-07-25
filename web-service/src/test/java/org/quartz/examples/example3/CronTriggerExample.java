@@ -22,8 +22,6 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
-
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
@@ -59,20 +57,20 @@ public class CronTriggerExample {
         // job 1 will run every 20 seconds
         JobDetail job = newJob(SimpleJob.class).withIdentity("job1", "group1").storeDurably().build();
 
-        CronTrigger trigger = newTrigger().withIdentity("trigger1", "group1").withSchedule(cronSchedule("0/20 * * * * ?")).forJob(job)
+        CronTrigger trigger = newTrigger().withIdentity("trigger1", "group1").withSchedule(cronSchedule("0/5 * * * * ?")).forJob(job)
                 .build();
 
         CronTrigger trigger1 = newTrigger().withIdentity("trigger11", "group1").withSchedule(cronSchedule("0/7 * * * * ?").withMisfireHandlingInstructionDoNothing()).forJob(job)
                 .build();
         sched.addJob(job, true);
         sched.scheduleJob(trigger);
-        sched.scheduleJob(trigger1);
+//        sched.scheduleJob(trigger1);
   /*  Date ft = sched.scheduleJob(job, trigger);
     log.info(job.getKey() + " has been scheduled to run at: " + ft + " and repeat based on expression: "
              + trigger.getCronExpression());*/
 
         // job 2 will run every other minute (at 15 seconds past the minute)
-        job = newJob(SimpleJob.class).withIdentity("job2", "group1").build();
+/*        job = newJob(SimpleJob.class).withIdentity("job2", "group1").build();
 
         trigger = newTrigger().withIdentity("trigger2", "group1").withSchedule(cronSchedule("15 0/2 * * * ?")).build();
 
@@ -127,7 +125,7 @@ public class CronTriggerExample {
         log.info(job.getKey() + " has been scheduled to run at: " + ft + " and repeat based on expression: "
                 + trigger.getCronExpression());
 
-        JobDetail jobDetail = newJob(SimpleJob.class).withIdentity("job8", "group1").build();
+        JobDetail jobDetail = newJob(SimpleJob.class).withIdentity("job8", "group1").build();*/
         log.info("------- Starting Scheduler ----------------");
 
         // All of the jobs have been added to the scheduler, but none of the

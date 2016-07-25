@@ -35,4 +35,9 @@ public class CustomerServiceOtherImpl implements CustomerService {
     public void updateByName(String name) {
 
     }
+
+    @Override
+    public void insertForTestQuartz() {
+
+    }
 }

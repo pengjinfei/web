@@ -1,30 +1,32 @@
 package com.pengjinfei.common.quartz;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.quartz.Scheduler;
+import org.quartz.SimpleTrigger;
+
+import java.lang.annotation.*;
 
 /**
  * Created by Pengjinfei on 16/7/25.
  * Description:
  */
-@Target({ ElementType.METHOD })
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
+@Inherited
 public @interface TimerJob {
 
     String name() default "";
 
-    String group() default "";
-
-    String cronExpression() default "";
+    String group() default Scheduler.DEFAULT_GROUP;
 
     int startDelay() default 0;
 
-    String repeatInterval() default "";
+    int maxConcurrent() default Integer.MAX_VALUE;
 
-    boolean disabled() default false;
+    int misfireInstruction() default SimpleTrigger.MISFIRE_INSTRUCTION_SMART_POLICY;
 
-    int maxConcurrent() default 0;
+    long repeatInterval() default 0L;
 
+    long repeatCount() default SimpleTrigger.REPEAT_INDEFINITELY;
+
+    String cronExpression() default "";
 }

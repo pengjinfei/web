@@ -16,4 +16,6 @@ public interface CustomerService {
     Customer getById(String id);
 
     void updateByName(String name);
+
+    void insertForTestQuartz();
 }

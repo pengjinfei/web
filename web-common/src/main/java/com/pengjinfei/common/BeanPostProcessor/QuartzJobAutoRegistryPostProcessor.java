@@ -9,12 +9,19 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
+import java.util.Calendar;
 
 /**
  * Created by Pengjinfei on 16/7/25.
@@ -23,9 +30,15 @@ import java.lang.reflect.Method;
 public class QuartzJobAutoRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        for (String beanDefinitionName : registry.getBeanDefinitionNames()) {
-            BeanDefinition beanDefinition = registry.getBeanDefinition(beanDefinitionName);
-            String beanClassName = beanDefinition.getBeanClassName();
+
+        RootBeanDefinition schedulerBeanDef = new RootBeanDefinition();
+        schedulerBeanDef.setBeanClass(SchedulerFactoryBean.class);
+        registry.registerBeanDefinition("schedulerFactory",schedulerBeanDef);
+
+        ManagedList<RuntimeBeanReference> triggersRefList = new ManagedList<>();
+        for (String jobDetailBeanDefName : registry.getBeanDefinitionNames()) {
+            BeanDefinition jobDetailBeanDef = registry.getBeanDefinition(jobDetailBeanDefName);
+            String beanClassName = jobDetailBeanDef.getBeanClassName();
             try {
                 Class<?> beanClass = Class.forName(beanClassName);
                 Service service = beanClass.getAnnotation(Service.class);
@@ -44,20 +57,21 @@ public class QuartzJobAutoRegistryPostProcessor implements BeanDefinitionRegistr
                     public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
                         TimerJob timerJob = AnnotationUtils.findAnnotation(method, TimerJob.class);
                         if (timerJob != null) {
-                            RootBeanDefinition beanDefinition = new RootBeanDefinition();
-                            beanDefinition.setBeanClass(MDCMethodInvokingJobDetailFactoryBean.class);
-                            beanDefinition.setLazyInit(false);
+                            RootBeanDefinition jobDetailBeanDef = new RootBeanDefinition();
+                            jobDetailBeanDef.setBeanClass(MDCMethodInvokingJobDetailFactoryBean.class);
+                            jobDetailBeanDef.setLazyInit(false);
 
-                            MutablePropertyValues propertyValues = beanDefinition.getPropertyValues();
+                            MutablePropertyValues jobDetailPV = jobDetailBeanDef.getPropertyValues();
 
-                            RuntimeBeanReference reference = new RuntimeBeanReference(finalValue);
-                            propertyValues.addPropertyValue("targetObject",reference);
-                            propertyValues.addPropertyValue("targetMethod",method.getName());
+                            RuntimeBeanReference serviceRef = new RuntimeBeanReference(finalValue);
+                            jobDetailPV.addPropertyValue("targetObject", serviceRef);
+                            jobDetailPV.addPropertyValue("targetMethod", method.getName());
+                            jobDetailPV.addPropertyValue("maxConcurrent",timerJob.maxConcurrent());
 
-                            String id=finalValue+"."+method.getName();
+                            String id = finalValue + "." + method.getName();
                             id += "(";
                             Class<?>[] parameterTypes = method.getParameterTypes();
-                            int temp=0;
+                            int temp = 0;
                             for (Class<?> parameterType : parameterTypes) {
                                 if (temp++ != 0) {
                                     id += ",";
@@ -65,13 +79,53 @@ public class QuartzJobAutoRegistryPostProcessor implements BeanDefinitionRegistr
                                 id += parameterType.getSimpleName();
                             }
                             id += ")";
-                            registry.registerBeanDefinition(id, beanDefinition);
+                            String jobDetailBeanId = "job:" + id;
+                            registry.registerBeanDefinition(jobDetailBeanId, jobDetailBeanDef);
+
+                            RootBeanDefinition triggerBeanDef = new RootBeanDefinition();
+                            RuntimeBeanReference jobDetailRef = new RuntimeBeanReference(jobDetailBeanId);
+                            MutablePropertyValues triggerPV = triggerBeanDef.getPropertyValues();
+                            triggerPV.addPropertyValue("jobDetail", jobDetailRef);
+                            if (StringUtils.hasText(timerJob.name())) {
+                                triggerPV.addPropertyValue("name", timerJob.name());
+                            }
+                            triggerPV.addPropertyValue("group", timerJob.group());
+                            triggerPV.addPropertyValue("misfireInstruction", timerJob.misfireInstruction());
+
+                            int startDelay = timerJob.startDelay() * 1000;
+                            if (startDelay > 0) {
+                                Calendar startTime = Calendar.getInstance();
+                                startTime.add(Calendar.MILLISECOND, startDelay);
+                                triggerPV.addPropertyValue("startTime", startTime.getTime());
+                            }
+
+                            String cronExpression = timerJob.cronExpression();
+                            if (!StringUtils.hasText(cronExpression)) {
+                                triggerBeanDef.setBeanClass(SimpleTriggerFactoryBean.class);
+                                triggerPV.addPropertyValue("repeatCount", timerJob.repeatCount());
+                                long repeatInterval = timerJob.repeatInterval();
+                                if (repeatInterval > 0) {
+                                    triggerPV.addPropertyValue("repeatInterval", repeatInterval);
+                                }
+                            } else {
+                                triggerBeanDef.setBeanClass(CronTriggerFactoryBean.class);
+                                triggerPV.addPropertyValue("cronExpression",timerJob.cronExpression());
+                            }
+
+                            String triggerBeanId="trigger:"+id;
+                            registry.registerBeanDefinition(triggerBeanId,triggerBeanDef);
+
+                            triggersRefList.add(new RuntimeBeanReference(triggerBeanId));
                         }
                     }
                 });
-            }catch (ClassNotFoundException e) {
-               //ignore
+            } catch (ClassNotFoundException e) {
+                //ignore
             }
+        }
+
+        if (!CollectionUtils.isEmpty(triggersRefList)) {
+            schedulerBeanDef.getPropertyValues().addPropertyValue("triggers", triggersRefList);
         }
     }
 
