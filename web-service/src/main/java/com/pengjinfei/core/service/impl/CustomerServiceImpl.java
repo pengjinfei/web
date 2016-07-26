@@ -22,8 +22,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     private static Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
+    private final CustomerDao customerDao;
+
     @Autowired
-    private CustomerDao customerDao;
+    public CustomerServiceImpl(CustomerDao customerDao) {
+        this.customerDao = customerDao;
+    }
 
     @Transactional(propagation = Propagation.REQUIRED)
 //    @Lock("testInsert")
@@ -48,15 +52,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @TimerJob(cronExpression = "0/5 * * * * ?",maxConcurrent = 1)
+    @TimerJob(name="测试quartz",cronExpression = "0/5 * * * * ?",maxConcurrent = 1)
     public void insertForTestQuartz() {
-        try {
-            Thread.sleep(6000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         logger.info("PENGJINFEI COMMING!");
     }
-
 
 }

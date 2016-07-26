@@ -1,6 +1,7 @@
 package com.pengjinfei.core.factory;
 
 import com.pengjinfei.core.service.CustomerService;
+import org.quartz.Scheduler;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -27,5 +28,9 @@ public class ServiceFactory implements BeanFactoryAware {
         } else {
             return beanFactory.getBean("customerService", CustomerService.class);
         }
+    }
+
+    public Scheduler getScheduler() {
+        return beanFactory.getBean(Scheduler.class);
     }
 }

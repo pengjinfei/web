@@ -33,7 +33,7 @@ public class QuartzJobAutoRegistryPostProcessor implements BeanDefinitionRegistr
 
         RootBeanDefinition schedulerBeanDef = new RootBeanDefinition();
         schedulerBeanDef.setBeanClass(SchedulerFactoryBean.class);
-        registry.registerBeanDefinition("schedulerFactory",schedulerBeanDef);
+        registry.registerBeanDefinition("scheduler",schedulerBeanDef);
 
         ManagedList<RuntimeBeanReference> triggersRefList = new ManagedList<>();
         for (String jobDetailBeanDefName : registry.getBeanDefinitionNames()) {
@@ -103,7 +103,7 @@ public class QuartzJobAutoRegistryPostProcessor implements BeanDefinitionRegistr
                             if (!StringUtils.hasText(cronExpression)) {
                                 triggerBeanDef.setBeanClass(SimpleTriggerFactoryBean.class);
                                 triggerPV.addPropertyValue("repeatCount", timerJob.repeatCount());
-                                long repeatInterval = timerJob.repeatInterval();
+                                long repeatInterval = timerJob.repeatInterval()*1000;
                                 if (repeatInterval > 0) {
                                     triggerPV.addPropertyValue("repeatInterval", repeatInterval);
                                 }

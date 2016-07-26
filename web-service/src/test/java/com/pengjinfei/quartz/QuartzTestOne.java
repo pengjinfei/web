@@ -1,5 +1,6 @@
 package com.pengjinfei.quartz;
 
+import com.pengjinfei.common.quartz.MDCMethodInvokingJob;
 import org.junit.Test;
 
 /**
@@ -10,6 +11,8 @@ public class QuartzTestOne {
 
     @Test
     public void testQuick() {
+        String simpleName = MDCMethodInvokingJob.class.getSimpleName();
+        System.out.println(simpleName);
     }
 
 }
