@@ -1,6 +1,8 @@
 package com.pengjinfei.common.BeanPostProcessor;
 
 import com.pengjinfei.common.quartz.MDCMethodInvokingJobDetailFactoryBean;
+import com.pengjinfei.common.quartz.PersistableCronTriggerFactoryBean;
+import com.pengjinfei.common.quartz.PersistableSimpleTriggerFactoryBean;
 import com.pengjinfei.common.quartz.TimerJob;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
@@ -12,8 +14,6 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
-import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ReflectionUtils;
@@ -96,14 +96,14 @@ public class QuartzJobAutoRegistryPostProcessor implements BeanDefinitionRegistr
 
                             String cronExpression = timerJob.cronExpression();
                             if (!StringUtils.hasText(cronExpression)) {
-                                triggerBeanDef.setBeanClass(SimpleTriggerFactoryBean.class);
+                                triggerBeanDef.setBeanClass(PersistableSimpleTriggerFactoryBean.class);
                                 triggerPV.addPropertyValue("repeatCount", timerJob.repeatCount());
                                 long repeatInterval = timerJob.repeatInterval()*1000;
                                 if (repeatInterval > 0) {
                                     triggerPV.addPropertyValue("repeatInterval", repeatInterval);
                                 }
                             } else {
-                                triggerBeanDef.setBeanClass(CronTriggerFactoryBean.class);
+                                triggerBeanDef.setBeanClass(PersistableCronTriggerFactoryBean.class);
                                 triggerPV.addPropertyValue("cronExpression",timerJob.cronExpression());
                             }
 
