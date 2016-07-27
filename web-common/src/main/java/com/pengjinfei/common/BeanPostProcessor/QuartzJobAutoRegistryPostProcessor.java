@@ -13,7 +13,6 @@ import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -30,10 +29,6 @@ import java.util.Calendar;
 public class QuartzJobAutoRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-
-        RootBeanDefinition schedulerBeanDef = new RootBeanDefinition();
-        schedulerBeanDef.setBeanClass(SchedulerFactoryBean.class);
-        registry.registerBeanDefinition("scheduler",schedulerBeanDef);
 
         ManagedList<RuntimeBeanReference> triggersRefList = new ManagedList<>();
         for (String jobDetailBeanDefName : registry.getBeanDefinitionNames()) {
@@ -124,8 +119,9 @@ public class QuartzJobAutoRegistryPostProcessor implements BeanDefinitionRegistr
             }
         }
 
+        BeanDefinition scheduler = registry.getBeanDefinition("scheduler");
         if (!CollectionUtils.isEmpty(triggersRefList)) {
-            schedulerBeanDef.getPropertyValues().addPropertyValue("triggers", triggersRefList);
+            scheduler.getPropertyValues().addPropertyValue("triggers", triggersRefList);
         }
     }
 
