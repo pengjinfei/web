@@ -20,11 +20,8 @@
 
 	<import resource="*/spring-*.xml"/>
 
-	<bean class="com.pengjinfei.common.BeanPostProcessor.DubboServiceAutoExportPostProcessor"/>
-
     <bean class="com.pengjinfei.common.BeanPostProcessor.LockAopPostProcessor"/>
 
 	<bean class="com.pengjinfei.common.BeanPostProcessor.LockPostConstructPostProcessor"/>
 
-	<bean class="com.pengjinfei.common.BeanPostProcessor.QuartzJobAutoRegistryPostProcessor"/>
 </beans>

@@ -9,4 +9,6 @@
 
 	<dubbo:protocol name="dubbo" port="20880" />
 
+	<bean class="com.pengjinfei.common.BeanPostProcessor.DubboServiceAutoExportPostProcessor"/>
+
 </beans>

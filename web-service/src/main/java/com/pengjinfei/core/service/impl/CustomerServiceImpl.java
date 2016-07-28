@@ -52,8 +52,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @TimerJob(name="测试quartz",cronExpression = "0/5 * * * * ?",maxConcurrent = 1)
+    @TimerJob(name="测试quartz",cronExpression = "0/5 * * * * ?",maxConcurrent = 2)
     public void insertForTestQuartz() {
+        try {
+            Thread.sleep(16000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         logger.info("PENGJINFEI COMMING!");
     }
 

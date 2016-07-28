@@ -26,7 +26,7 @@ public @interface TimerJob {
 
     long repeatInterval() default 0L;
 
-    long repeatCount() default SimpleTrigger.REPEAT_INDEFINITELY;
+    int repeatCount() default SimpleTrigger.REPEAT_INDEFINITELY;
 
     String cronExpression() default "";
 }
